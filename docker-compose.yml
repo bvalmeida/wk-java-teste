@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mysql-db:
+    image: mysql:8.2.0
+    container_name: mysql-db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: wkbloodbank
+      MYSQL_DATABASE: wkbloodbank
+      MYSQL_USER: wkbloodbank
+      MYSQL_PASSWORD: wkbloodbank
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - wk_network
+
+networks:
+  wk_network:
+    driver: bridge
