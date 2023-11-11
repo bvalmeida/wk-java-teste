@@ -1,13 +1,17 @@
 package br.com.wkbloodbank.service;
 
 import br.com.wkbloodbank.dto.ContagemPorEstadoDTO;
+import br.com.wkbloodbank.dto.ImcMedioPorFaixaIdadeDTO;
 import br.com.wkbloodbank.dto.PessoaRequestDTO;
 import br.com.wkbloodbank.dto.PessoaResponseDTO;
 import br.com.wkbloodbank.handlers.exceptions.BadRequestException;
 import br.com.wkbloodbank.handlers.exceptions.NotFoundEntityException;
+import br.com.wkbloodbank.handlers.exceptions.ServerSideException;
 import br.com.wkbloodbank.model.PessoaModel;
 import br.com.wkbloodbank.repository.PessoaRepository;
 import br.com.wkbloodbank.repository.PessoaSpecification;
+import br.com.wkbloodbank.utils.DataUtil;
+import br.com.wkbloodbank.utils.UtilImc;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
@@ -16,8 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,9 +60,15 @@ public class PessoaServiceImpl implements PessoaService{
     @Override
     public List<PessoaResponseDTO> salvarPessoasPorList(List<PessoaRequestDTO> pessoaRequestDTOList) {
         try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             List<PessoaModel> pessoaModels = this.pessoaRepository.saveAll(pessoaRequestDTOList
                     .stream()
-                    .map(pessoaRequestDTO -> this.modelMapper.map(pessoaRequestDTO, PessoaModel.class))
+                    .map(pessoaRequestDTO -> {
+                        PessoaModel pessoaModel = this.modelMapper.map(pessoaRequestDTO, PessoaModel.class);
+                        pessoaModel.setDataNascimento(LocalDate.parse(pessoaRequestDTO.getDataNascimento().replace("\\", ""), formatter));
+                        return pessoaModel;
+                    })
                     .collect(Collectors.toList()));
 
             //TODO - Log com quantidade
@@ -90,6 +103,33 @@ public class PessoaServiceImpl implements PessoaService{
         });
 
         return contagemPorEstadoDTOList;
+    }
+
+    @Override
+    public List<ImcMedioPorFaixaIdadeDTO> buscarImcMedioPorFaixaIdade() {
+        List<PessoaModel> pessoaModelList = this.pessoaRepository.findAll();
+
+        try {
+            Map<String, Double> imcMedioPorFaixaDeIdade = pessoaModelList
+                    .stream()
+                    .collect(Collectors.groupingBy(
+                            pessoaModel -> {
+                                int idade = DataUtil.calcularIdade(pessoaModel.getDataNascimento());
+                                int faixaInicial = (idade / 10) * 10;
+                                int faixaFinal = faixaInicial + 9;
+                                return String.format("%d a %d anos", faixaInicial, faixaFinal);
+                            },
+                            Collectors.averagingDouble(pessoaModel -> UtilImc.cacularImc(pessoaModel.getPeso(), pessoaModel.getAltura()))
+                    ));
+
+            return imcMedioPorFaixaDeIdade.entrySet()
+                    .stream()
+                    .map(entry -> new ImcMedioPorFaixaIdadeDTO(entry.getValue(), entry.getKey()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new ServerSideException("Não foi possível calcular o IMC médio por faixa de idade: " + e.getMessage());
+        }
+
     }
 
 

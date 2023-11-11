@@ -1,6 +1,7 @@
 package br.com.wkbloodbank.controller;
 
 import br.com.wkbloodbank.dto.ContagemPorEstadoDTO;
+import br.com.wkbloodbank.dto.ImcMedioPorFaixaIdadeDTO;
 import br.com.wkbloodbank.dto.PessoaRequestDTO;
 import br.com.wkbloodbank.dto.PessoaResponseDTO;
 import br.com.wkbloodbank.service.PessoaService;
@@ -45,5 +46,11 @@ public class BloodBankController {
     public ResponseEntity<List<ContagemPorEstadoDTO>> buscarQuantidadePorEstado(){
         List<ContagemPorEstadoDTO> contagemPorEstadoDTOList = this.pessoaService.buscarContagemPorEstado();
         return new ResponseEntity<>(contagemPorEstadoDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("imc-medio-por-faixa-idade")
+    public ResponseEntity<List<ImcMedioPorFaixaIdadeDTO>> buscarImcMedioPorFaixaIdade(){
+        List<ImcMedioPorFaixaIdadeDTO> imcMedioPorFaixaIdadeDTOList = this.pessoaService.buscarImcMedioPorFaixaIdade();
+        return new ResponseEntity<>(imcMedioPorFaixaIdadeDTOList, HttpStatus.OK);
     }
 }
