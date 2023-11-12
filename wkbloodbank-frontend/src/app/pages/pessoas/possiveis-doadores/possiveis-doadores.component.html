@@ -1,0 +1,17 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Tipo Sanguíneo</th>
+        <th>Quantidade de Possíveis Doadores</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of possiveisDoadoresPorTipoSanguineo; let i = index">
+        <td>{{ pessoa.tipoSanguineo }}</td>
+        <td>{{ pessoa.quantidade }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

@@ -1,0 +1,16 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Estado</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of pessoasPorEstado; let i = index">
+        <td>{{ pessoa.estado }}</td>
+        <td>{{ pessoa.quantidade }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,17 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Sexo</th>
+        <th>Porcentagem de Obesos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of percentualObesesPorSexo; let i = index">
+        <td>{{ pessoa.sexo }}</td>
+        <td>{{ pessoa.porcentagem }}%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

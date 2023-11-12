@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IPessoaModel } from 'src/app/models/pessoa-model';
+import { IPessoaModel } from 'src/app/models/pessoa-models/pessoa-model';
 import { PessoaService } from 'src/app/services/pessoa.service';
 
 @Component({

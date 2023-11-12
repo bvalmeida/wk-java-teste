@@ -1,0 +1,16 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Tipo Sanguíneo</th>
+        <th>Média da Idade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of idadeMediaPorTipoSanguineo; let i = index">
+        <td>{{ pessoa.tipoSangue }}</td>
+        <td>{{ pessoa.mediaIdade }} anos</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

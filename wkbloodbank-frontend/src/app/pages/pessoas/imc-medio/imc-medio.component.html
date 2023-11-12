@@ -1,0 +1,17 @@
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Faixa de Idade</th>
+        <th>IMC Médio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of imcPorFaixaEtaria; let i = index">
+        <td>{{ pessoa.faixaIdade }}</td>
+        <td>{{ pessoa.imcMedio }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
