@@ -23,4 +23,6 @@ public interface PessoaService {
 
     List<MediaIdadePorTipoSangueDTO> buscarMediaIdadePorTipoSangue();
 
+    List<QuantidadeDePossiveisDoadoresPorTipoSangueDTO> buscarQuantidadeDePossiveisDoadoresPorTipoSangue();
+
 }

@@ -4,6 +4,7 @@ import br.com.wkbloodbank.model.PessoaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface PessoaRepository extends JpaRepository<PessoaModel, Long>, JpaS
     List<String> findByDistinctTipoSanguineo();
 
     List<PessoaModel> findByTipoSanguineo(String tipoSanguineo);
+
+    @Query("SELECT p FROM PessoaModel p WHERE p.tipoSanguineo IN :tiposSanguineos")
+    List<PessoaModel> findByTipoSanguineoList(@Param("tiposSanguineos") List<String> tiposSanguineos);
 }

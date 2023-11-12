@@ -20,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,6 +161,34 @@ public class PessoaServiceImpl implements PessoaService{
                 });
 
         return mediaIdadePorTipoSangueDTOList;
+    }
+
+    @Override
+    public List<QuantidadeDePossiveisDoadoresPorTipoSangueDTO> buscarQuantidadeDePossiveisDoadoresPorTipoSangue() {
+        List<String> tipoSanguineoList = this.pessoaRepository.findByDistinctTipoSanguineo();
+        List<QuantidadeDePossiveisDoadoresPorTipoSangueDTO> quantidadeDePossiveisDoadoresPorTipoSangueDTOList = new ArrayList<>();
+
+        tipoSanguineoList.stream().forEach(tipoSanguineo -> {
+            List<PessoaModel> pessoaListByTipoSanguineo = this.pessoaRepository.findByTipoSanguineo(tipoSanguineo);
+
+            List<PessoaModel> pessoaModelPodeDoarList = PessoaUtil.validarPessoasQuePodemDoar(pessoaListByTipoSanguineo);
+
+            QuantidadeDePossiveisDoadoresPorTipoSangueDTO quantidadeDePossiveisDoadoresPorTipoSangueDTO = new QuantidadeDePossiveisDoadoresPorTipoSangueDTO();
+            quantidadeDePossiveisDoadoresPorTipoSangueDTO.setTipoSanguineo(tipoSanguineo);
+
+            pessoaModelPodeDoarList.stream().forEach(pessoaModel -> {
+                List<String> podeReceberDoacao = PessoaUtil.validarDoacaoPorTipoSangue(pessoaModel.getTipoSanguineo());
+
+                List<PessoaModel> pessoasQuePodemDoarParaTipoSanquineo = this.pessoaRepository.findByTipoSanguineoList(podeReceberDoacao);
+                Integer quantidade = pessoasQuePodemDoarParaTipoSanquineo.size();
+                quantidadeDePossiveisDoadoresPorTipoSangueDTO.setQuantidade(quantidade.toString());
+
+            });
+            quantidadeDePossiveisDoadoresPorTipoSangueDTOList.add(quantidadeDePossiveisDoadoresPorTipoSangueDTO);
+
+        });
+
+        return quantidadeDePossiveisDoadoresPorTipoSangueDTOList;
     }
 
 

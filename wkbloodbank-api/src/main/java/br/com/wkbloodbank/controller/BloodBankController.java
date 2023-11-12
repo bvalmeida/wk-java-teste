@@ -62,4 +62,10 @@ public class BloodBankController {
         List<MediaIdadePorTipoSangueDTO> mediaIdadePorTipoSangueDTOS = this.pessoaService.buscarMediaIdadePorTipoSangue();
         return new ResponseEntity<>(mediaIdadePorTipoSangueDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("quantidade-possiveis-doadores-por-tipo-sangue")
+    public ResponseEntity<List<QuantidadeDePossiveisDoadoresPorTipoSangueDTO>> buscarQuantidadePossiveisDoadoresPorTipoSangue(){
+        List<QuantidadeDePossiveisDoadoresPorTipoSangueDTO> quantidadeDePossiveisDoadoresPorTipoSangueDTOS = this.pessoaService.buscarQuantidadeDePossiveisDoadoresPorTipoSangue();
+        return new ResponseEntity<>(quantidadeDePossiveisDoadoresPorTipoSangueDTOS, HttpStatus.OK);
+    }
 }
