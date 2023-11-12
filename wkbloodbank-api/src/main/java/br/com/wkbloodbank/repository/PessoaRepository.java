@@ -20,4 +20,8 @@ public interface PessoaRepository extends JpaRepository<PessoaModel, Long>, JpaS
 
     List<PessoaModel> findBySexo(String sexo);
 
+    @Query("SELECT DISTINCT p.tipoSanguineo FROM PessoaModel p")
+    List<String> findByDistinctTipoSanguineo();
+
+    List<PessoaModel> findByTipoSanguineo(String tipoSanguineo);
 }

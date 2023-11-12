@@ -149,5 +149,21 @@ public class PessoaServiceImpl implements PessoaService{
         }
     }
 
+    @Override
+    public List<MediaIdadePorTipoSangueDTO> buscarMediaIdadePorTipoSangue() {
+        List<String> byDistinctTipoSanguineo = this.pessoaRepository.findByDistinctTipoSanguineo();
+        List<MediaIdadePorTipoSangueDTO> mediaIdadePorTipoSangueDTOList = new ArrayList<>();
+
+        byDistinctTipoSanguineo
+                .stream()
+                .forEach(tipoSanguineo -> {
+                    List<PessoaModel> pessoaModelbyTipoSanguineo = this.pessoaRepository.findByTipoSanguineo(tipoSanguineo);
+                    String mediaIdade = PessoaUtil.calcularMediaIdade(pessoaModelbyTipoSanguineo);
+                    mediaIdadePorTipoSangueDTOList.add(new MediaIdadePorTipoSangueDTO(mediaIdade, tipoSanguineo));
+                });
+
+        return mediaIdadePorTipoSangueDTOList;
+    }
+
 
 }

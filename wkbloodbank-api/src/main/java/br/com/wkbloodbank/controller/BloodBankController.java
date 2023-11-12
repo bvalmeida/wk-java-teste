@@ -56,4 +56,10 @@ public class BloodBankController {
         List<PercentualObesosPorSexoDTO> percentualObesosPorSexoDTOList = this.pessoaService.buscarPercentualObesosPorSexo();
         return new ResponseEntity<>(percentualObesosPorSexoDTOList, HttpStatus.OK);
     }
+
+    @GetMapping("media-idade-por-tipo-sangue")
+    public ResponseEntity<List<MediaIdadePorTipoSangueDTO>> buscarMediaIdadePorTipoSangue(){
+        List<MediaIdadePorTipoSangueDTO> mediaIdadePorTipoSangueDTOS = this.pessoaService.buscarMediaIdadePorTipoSangue();
+        return new ResponseEntity<>(mediaIdadePorTipoSangueDTOS, HttpStatus.OK);
+    }
 }

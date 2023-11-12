@@ -21,4 +21,6 @@ public interface PessoaService {
 
     List<PercentualObesosPorSexoDTO> buscarPercentualObesosPorSexo();
 
+    List<MediaIdadePorTipoSangueDTO> buscarMediaIdadePorTipoSangue();
+
 }
