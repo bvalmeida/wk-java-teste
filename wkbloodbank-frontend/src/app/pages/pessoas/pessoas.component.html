@@ -1,0 +1,48 @@
+<div class="container">
+  <div *ngIf="pessoas && pessoas.length > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>RG</th>
+          <!-- Adicione outras colunas conforme necessário -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pessoa of pessoas; let i = index">
+          <td>{{ pessoa.id }}</td>
+          <td>{{ pessoa.nome }}</td>
+          <td>{{ pessoa.cpf }}</td>
+          <td>{{ pessoa.rg }}</td>
+          <!-- Adicione outras colunas conforme necessário -->
+        </tr>
+      </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        <li class="page-item" [class.disabled]="currentPage === 0">
+          <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let pageNumber of getVisiblePages(); let i = index">
+          <a class="page-link" (click)="onPageChange(pageNumber)" [class.active]="pageNumber === currentPage">{{ pageNumber + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+          <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <div *ngIf="!pessoas || pessoas.length === 0">
+    <p>Nenhuma pessoa encontrada.</p>
+  </div>
+
+</div>
