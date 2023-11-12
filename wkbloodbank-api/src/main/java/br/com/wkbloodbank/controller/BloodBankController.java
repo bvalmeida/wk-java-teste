@@ -1,9 +1,6 @@
 package br.com.wkbloodbank.controller;
 
-import br.com.wkbloodbank.dto.ContagemPorEstadoDTO;
-import br.com.wkbloodbank.dto.ImcMedioPorFaixaIdadeDTO;
-import br.com.wkbloodbank.dto.PessoaRequestDTO;
-import br.com.wkbloodbank.dto.PessoaResponseDTO;
+import br.com.wkbloodbank.dto.*;
 import br.com.wkbloodbank.service.PessoaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,5 +49,11 @@ public class BloodBankController {
     public ResponseEntity<List<ImcMedioPorFaixaIdadeDTO>> buscarImcMedioPorFaixaIdade(){
         List<ImcMedioPorFaixaIdadeDTO> imcMedioPorFaixaIdadeDTOList = this.pessoaService.buscarImcMedioPorFaixaIdade();
         return new ResponseEntity<>(imcMedioPorFaixaIdadeDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("percentual-obesos-por-sexo")
+    public ResponseEntity<List<PercentualObesosPorSexoDTO>> buscarPercentualObesosPorSexo(){
+        List<PercentualObesosPorSexoDTO> percentualObesosPorSexoDTOList = this.pessoaService.buscarPercentualObesosPorSexo();
+        return new ResponseEntity<>(percentualObesosPorSexoDTOList, HttpStatus.OK);
     }
 }

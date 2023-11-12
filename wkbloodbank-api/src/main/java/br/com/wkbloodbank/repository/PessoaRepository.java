@@ -18,4 +18,6 @@ public interface PessoaRepository extends JpaRepository<PessoaModel, Long>, JpaS
 
     Long countByEstado(String estado);
 
+    List<PessoaModel> findBySexo(String sexo);
+
 }

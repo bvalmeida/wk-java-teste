@@ -1,9 +1,6 @@
 package br.com.wkbloodbank.service;
 
-import br.com.wkbloodbank.dto.ContagemPorEstadoDTO;
-import br.com.wkbloodbank.dto.ImcMedioPorFaixaIdadeDTO;
-import br.com.wkbloodbank.dto.PessoaRequestDTO;
-import br.com.wkbloodbank.dto.PessoaResponseDTO;
+import br.com.wkbloodbank.dto.*;
 import br.com.wkbloodbank.handlers.exceptions.BadRequestException;
 import br.com.wkbloodbank.handlers.exceptions.NotFoundEntityException;
 import br.com.wkbloodbank.handlers.exceptions.ServerSideException;
@@ -11,7 +8,8 @@ import br.com.wkbloodbank.model.PessoaModel;
 import br.com.wkbloodbank.repository.PessoaRepository;
 import br.com.wkbloodbank.repository.PessoaSpecification;
 import br.com.wkbloodbank.utils.DataUtil;
-import br.com.wkbloodbank.utils.UtilImc;
+import br.com.wkbloodbank.utils.ImcUtil;
+import br.com.wkbloodbank.utils.PessoaUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
@@ -119,7 +117,7 @@ public class PessoaServiceImpl implements PessoaService{
                                 int faixaFinal = faixaInicial + 9;
                                 return String.format("%d a %d anos", faixaInicial, faixaFinal);
                             },
-                            Collectors.averagingDouble(pessoaModel -> UtilImc.cacularImc(pessoaModel.getPeso(), pessoaModel.getAltura()))
+                            Collectors.averagingDouble(pessoaModel -> ImcUtil.cacularImc(pessoaModel.getPeso(), pessoaModel.getAltura()))
                     ));
 
             return imcMedioPorFaixaDeIdade.entrySet()
@@ -130,6 +128,25 @@ public class PessoaServiceImpl implements PessoaService{
             throw new ServerSideException("Não foi possível calcular o IMC médio por faixa de idade: " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public List<PercentualObesosPorSexoDTO> buscarPercentualObesosPorSexo() {
+        try{
+            List<PessoaModel> pessoasSexoFeminino = this.pessoaRepository.findBySexo("Feminino");
+            List<PessoaModel> pessoasSexoMasculino = this.pessoaRepository.findBySexo("Masculino");
+            List<PercentualObesosPorSexoDTO> percentualObesosPorSexoDTOList = new ArrayList<>();
+
+            Double porcentagemObesosPorSexoFeminino = PessoaUtil.calcularPorcentagemObesosPorSexo(pessoasSexoFeminino);
+            Double porcentagemObesosPorSexoMasculino = PessoaUtil.calcularPorcentagemObesosPorSexo(pessoasSexoMasculino);
+
+            percentualObesosPorSexoDTOList.add(new PercentualObesosPorSexoDTO(porcentagemObesosPorSexoFeminino.toString(), "Feminino"));
+            percentualObesosPorSexoDTOList.add(new PercentualObesosPorSexoDTO(porcentagemObesosPorSexoMasculino.toString(), "Masculino"));
+
+            return percentualObesosPorSexoDTOList;
+        }catch (Exception e){
+            throw new ServerSideException("Não foi possível buscar o percentual de obesos por sexo: " + e.getMessage());
+        }
     }
 
 

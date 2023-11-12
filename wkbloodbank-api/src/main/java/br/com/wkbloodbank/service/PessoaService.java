@@ -1,9 +1,6 @@
 package br.com.wkbloodbank.service;
 
-import br.com.wkbloodbank.dto.ContagemPorEstadoDTO;
-import br.com.wkbloodbank.dto.ImcMedioPorFaixaIdadeDTO;
-import br.com.wkbloodbank.dto.PessoaRequestDTO;
-import br.com.wkbloodbank.dto.PessoaResponseDTO;
+import br.com.wkbloodbank.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,5 +18,7 @@ public interface PessoaService {
     List<ContagemPorEstadoDTO> buscarContagemPorEstado();
 
     List<ImcMedioPorFaixaIdadeDTO> buscarImcMedioPorFaixaIdade();
+
+    List<PercentualObesosPorSexoDTO> buscarPercentualObesosPorSexo();
 
 }
