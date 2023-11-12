@@ -11,6 +11,8 @@ export class PessoasComponent implements OnInit {
   pessoas: IPessoaModel[] = [];
   totalPages: number = 0;
   currentPage: number = 0;
+  jsonData: string = '';
+  mostrarTextAreaParaJson: boolean = false;
 
   constructor(private pessoaService: PessoaService) {}
 
@@ -49,5 +51,26 @@ export class PessoasComponent implements OnInit {
     );
     const endPage = Math.min(this.totalPages - 1, startPage + visiblePages - 1);
     return this.getNumberArray(startPage, endPage);
+  }
+
+  enviarJson(): void {
+    try {
+      const parsedJson = JSON.parse(this.jsonData);
+      this.pessoaService.salvarJson(parsedJson).subscribe(
+        (response) => {
+          console.log('Sucesso!', response);
+          this.mostrarTextParaJson();
+        },
+        (error) => {
+          console.error('Erro ao enviar JSON', error);
+        }
+      );
+    } catch (error) {
+      console.error('Erro ao analisar JSON', error);
+    }
+  }
+
+  mostrarTextParaJson(){
+    this.mostrarTextAreaParaJson = !this.mostrarTextAreaParaJson;
   }
 }

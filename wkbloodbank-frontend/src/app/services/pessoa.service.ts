@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -44,5 +44,11 @@ export class PessoaService {
   getPossiveisDoadoresPorTipoSanguineo():Observable<IPossiveisDoadoresPorTipoSangue[]>{
     const url = `${this.apiUrl}/quantidade-possiveis-doadores-por-tipo-sangue`;
     return this.httpClient.get<IPossiveisDoadoresPorTipoSangue[]>(url);
+  }
+
+  salvarJson(data: any): Observable<any>{
+    const url = `${this.apiUrl}/salvar-lista`;
+    const headers = new HttpHeaders({ 'Content-Type':'application/json' });
+    return this.httpClient.post<any>(url, data, {headers});
   }
 }

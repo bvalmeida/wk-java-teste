@@ -1,4 +1,19 @@
 <div class="container mt-5">
+
+  <div *ngIf="!mostrarTextAreaParaJson">
+    <button class="btn btn-info" (click)="mostrarTextParaJson()">Adicionar JSON</button>
+  </div>
+
+  <div *ngIf="mostrarTextAreaParaJson">
+    <form (ngSubmit)="enviarJson()">
+      <label for="jsonInput">Digite seu JSON:</label>
+      <textarea id="jsonInput" name="jsonInput" [(ngModel)]="jsonData" required></textarea>
+
+      <button type="submit">Enviar JSON</button>
+    </form>
+  </div>
+
+
   <div *ngIf="pessoas && pessoas.length > 0">
     <table class="table">
       <thead>
