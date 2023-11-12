@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface PessoaService {
 
-    List<PessoaResponseDTO> salvarPessoasPorArquivoJson(MultipartFile fileJson);
-
     List<PessoaResponseDTO> salvarPessoasPorList(List<PessoaRequestDTO> pessoaRequestDTOList);
 
     Page<PessoaResponseDTO> buscarPessoasPorFiltrosPage(Pageable pageable, PessoaRequestDTO pessoaRequestDTO);

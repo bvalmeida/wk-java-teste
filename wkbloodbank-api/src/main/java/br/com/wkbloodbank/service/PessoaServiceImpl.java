@@ -11,13 +11,10 @@ import br.com.wkbloodbank.utils.DataUtil;
 import br.com.wkbloodbank.utils.ImcUtil;
 import br.com.wkbloodbank.utils.PessoaUtil;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,24 +32,6 @@ public class PessoaServiceImpl implements PessoaService{
         this.modelMapper = modelMapper;
     }
 
-    //TODO - Validar por arquivo
-    @Override
-    public List<PessoaResponseDTO> salvarPessoasPorArquivoJson(MultipartFile fileJson) {
-        try {
-            String json = new String(fileJson.getBytes());
-
-            List<PessoaModel> listPessoas = this.modelMapper.map(json, new TypeToken<List<PessoaModel>>() {}.getType());
-
-            return this.pessoaRepository.saveAll(listPessoas)
-                    .stream()
-                    .map(pessoaModel -> this.modelMapper.map(pessoaModel, PessoaResponseDTO.class))
-                    .collect(Collectors.toList());
-
-        } catch (IOException e) {
-            throw new BadRequestException("Não foi possível salver o arquivo JSON {} " + e.getMessage());
-        }
-    }
-
     @Override
     public List<PessoaResponseDTO> salvarPessoasPorList(List<PessoaRequestDTO> pessoaRequestDTOList) {
         try{
@@ -67,7 +46,6 @@ public class PessoaServiceImpl implements PessoaService{
                     })
                     .collect(Collectors.toList()));
 
-            //TODO - Log com quantidade
             return pessoaModels.stream().map(pessoaModel -> this.modelMapper
                     .map(pessoaModel, PessoaResponseDTO.class)).collect(Collectors.toList());
         }catch (Exception e){

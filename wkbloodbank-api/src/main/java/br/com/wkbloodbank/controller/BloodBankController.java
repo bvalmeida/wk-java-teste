@@ -21,12 +21,6 @@ public class BloodBankController {
         this.pessoaService = pessoaService;
     }
 
-    @PostMapping("salvar")
-    public ResponseEntity<List<PessoaResponseDTO>> salvarPorJson(@RequestParam("file")MultipartFile file){
-        List<PessoaResponseDTO> pessoaResponseDTOS = this.pessoaService.salvarPessoasPorArquivoJson(file);
-        return new ResponseEntity<>(pessoaResponseDTOS, HttpStatus.CREATED);
-    }
-
     @PostMapping("salvar-lista")
     public ResponseEntity<List<PessoaResponseDTO>> salvarLista(@RequestBody List<PessoaRequestDTO> pessoaRequestDTOList){
         List<PessoaResponseDTO> pessoaResponseDTOS = this.pessoaService.salvarPessoasPorList(pessoaRequestDTOList);
