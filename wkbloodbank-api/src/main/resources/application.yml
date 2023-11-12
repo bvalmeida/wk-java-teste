@@ -4,9 +4,9 @@ spring:
       max-file-size=50MB
       max-request-size=50MB
   datasource:
-    url: jdbc:mysql://localhost:3306/wkbloodbank?useSSL=false&allowPublicKeyRetrieval=true
-    username: wkbloodbank
-    password: wkbloodbank
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/wkbloodbank?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DATABASE_USERNAME:wkbloodbank}
+    password: ${DATABASE_PASSWORD:wkbloodbank}
   jpa:
     hibernate:
       ddl-auto: update

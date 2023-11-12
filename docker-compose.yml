@@ -16,6 +16,21 @@ services:
       - ./mysql_data:/var/lib/mysql
     networks:
       - wk_network
+  
+  wk-api:
+    restart: on-failure:5
+    build: ./wkbloodbank-api
+    container_name: wk-api
+    depends_on:
+      - mysql-db
+    networks:
+      - wk_network
+    environment:
+      - DATABASE_URL=jdbc:mysql://mysql-db:3306/wkbloodbank?useSSL=false&allowPublicKeyRetrieval=true
+      - DATABASE_USERNAME:wkbloodbank
+      - DATABASE_PASSWORD:wkbloodbank
+    ports:
+      - 8080:8080
 
 networks:
   wk_network:
