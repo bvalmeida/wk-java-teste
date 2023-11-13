@@ -60,6 +60,7 @@ export class PessoasComponent implements OnInit {
         (response) => {
           console.log('Sucesso!', response);
           this.mostrarTextParaJson();
+          this.loadPessoas();
         },
         (error) => {
           console.error('Erro ao enviar JSON', error);

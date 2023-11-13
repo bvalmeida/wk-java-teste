@@ -31,6 +31,13 @@ services:
       - DATABASE_PASSWORD:wkbloodbank
     ports:
       - 8080:8080
+  
+  wk-web:
+    restart: on-failure:5
+    container_name: wk-web
+    build: "./wkbloodbank-frontend"
+    ports:
+      - 4200:4200
 
 networks:
   wk_network:

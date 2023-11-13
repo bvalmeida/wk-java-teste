@@ -7,21 +7,27 @@
   <div *ngIf="mostrarTextAreaParaJson">
     <form (ngSubmit)="enviarJson()">
       <label for="jsonInput">Digite seu JSON:</label>
-      <textarea id="jsonInput" name="jsonInput" [(ngModel)]="jsonData" required></textarea>
+      <div>
+        <textarea class="form-control mt-2" id="jsonInput" name="jsonInput" [(ngModel)]="jsonData" required></textarea>
+      </div>
 
-      <button type="submit">Enviar JSON</button>
+      <button class="btn btn-success btn-sm mx-2 mt-2" type="submit">Enviar JSON</button>
+      <button class="btn btn-danger btn-sm mx-2 mt-2" (click)="mostrarTextParaJson()">Cancelar</button>
     </form>
   </div>
 
 
-  <div *ngIf="pessoas && pessoas.length > 0">
-    <table class="table">
+  <div class="mt-2 mx-2" *ngIf="pessoas && pessoas.length > 0">
+    <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
       <thead>
         <tr>
           <th>ID</th>
           <th>Nome</th>
           <th>CPF</th>
           <th>RG</th>
+          <th>Tipo Sanguíneo</th>
+          <th>Cidade</th>
+          <th>Telefone Celular</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +36,9 @@
           <td>{{ pessoa.nome }}</td>
           <td>{{ pessoa.cpf }}</td>
           <td>{{ pessoa.rg }}</td>
+          <td>{{ pessoa.tipoSanguineo }}</td>
+          <td>{{ pessoa.cidade }}</td>
+          <td>{{ pessoa.celular }}</td>
         </tr>
       </tbody>
     </table>
